@@ -109,7 +109,7 @@ export const Dashboard = () => {
                     <div className="text-sm font-semibold text-slate-200">{f.name}</div>
                     <div className="text-xs text-slate-400">{f.description}</div>
                   </div>
-                  <Badge variant={f.id === "iso27001" ? "blue" : "purple"}>Active</Badge>
+                  <Badge tone={f.id === "iso27001" ? "blue" : "purple"}>Active</Badge>
                 </div>
               ))}
             </div>

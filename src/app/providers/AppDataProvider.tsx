@@ -82,16 +82,14 @@ export const AppDataProvider = ({ children }: { children: React.ReactNode }) => 
           score: riskScore(input.likelihood, input.impact)
         };
         setRisks((prev) => [newRisk, ...prev]);
-        setActivity((prev) => [
-          {
-            id: id("act"),
-            timestamp: now,
-            type: "RiskCreated",
-            title: "Risk created",
-            detail: newRisk.title
-          },
-          ...prev
-        ]);
+        const item: ActivityItem = {
+          id: id("act"),
+          timestamp: now,
+          type: "RiskCreated",
+          title: "Risk created",
+          detail: newRisk.title
+        };
+        setActivity((prev) => [item, ...prev]);
         return newRisk;
       },
       updateRisk: (riskId, patch) => {
@@ -109,16 +107,14 @@ export const AppDataProvider = ({ children }: { children: React.ReactNode }) => 
             return { ...next, score: riskScore(likelihood, impact) };
           })
         );
-        setActivity((prev) => [
-          {
-            id: id("act"),
-            timestamp: now,
-            type: "RiskUpdated",
-            title: "Risk updated",
-            detail: riskId
-          },
-          ...prev
-        ]);
+        const item: ActivityItem = {
+          id: id("act"),
+          timestamp: now,
+          type: "RiskUpdated",
+          title: "Risk updated",
+          detail: riskId
+        };
+        setActivity((prev) => [item, ...prev]);
       },
       mapRiskToControl: (controlId, riskId, mapped) => {
         setControls((prev) =>
@@ -142,16 +138,14 @@ export const AppDataProvider = ({ children }: { children: React.ReactNode }) => 
           linkedEvidenceIds: []
         };
         setAudits((prev) => [newAudit, ...prev]);
-        setActivity((prev) => [
-          {
-            id: id("act"),
-            timestamp: new Date().toISOString(),
-            type: "AuditCreated",
-            title: "Audit created",
-            detail: newAudit.title
-          },
-          ...prev
-        ]);
+        const item: ActivityItem = {
+          id: id("act"),
+          timestamp: new Date().toISOString(),
+          type: "AuditCreated",
+          title: "Audit created",
+          detail: newAudit.title
+        };
+        setActivity((prev) => [item, ...prev]);
         return newAudit;
       },
       updateAudit: (auditId, patch) => {
@@ -165,16 +159,14 @@ export const AppDataProvider = ({ children }: { children: React.ReactNode }) => 
             a.id === auditId ? { ...a, findings: [newFinding, ...a.findings] } : a
           )
         );
-        setActivity((prev) => [
-          {
-            id: id("act"),
-            timestamp: new Date().toISOString(),
-            type: "FindingAdded",
-            title: "Audit finding added",
-            detail: newFinding.title
-          },
-          ...prev
-        ]);
+        const item: ActivityItem = {
+          id: id("act"),
+          timestamp: new Date().toISOString(),
+          type: "FindingAdded",
+          title: "Audit finding added",
+          detail: newFinding.title
+        };
+        setActivity((prev) => [item, ...prev]);
       },
       addEvidence: (file, linkedTo) => {
         const uploadedAt = new Date().toISOString();
@@ -196,16 +188,14 @@ export const AppDataProvider = ({ children }: { children: React.ReactNode }) => 
             )
           );
         }
-        setActivity((prev) => [
-          {
-            id: id("act"),
-            timestamp: uploadedAt,
-            type: "EvidenceUploaded",
-            title: "Evidence uploaded",
-            detail: file.name
-          },
-          ...prev
-        ]);
+        const item: ActivityItem = {
+          id: id("act"),
+          timestamp: uploadedAt,
+          type: "EvidenceUploaded",
+          title: "Evidence uploaded",
+          detail: file.name
+        };
+        setActivity((prev) => [item, ...prev]);
       },
       linkEvidence: (evidenceId, linkedTo) => {
         setEvidence((prev) =>
@@ -215,16 +205,14 @@ export const AppDataProvider = ({ children }: { children: React.ReactNode }) => 
       addPolicy: (policy) => {
         const newPolicy: Policy = { ...policy, id: id("p") };
         setPolicies((prev) => [newPolicy, ...prev]);
-        setActivity((prev) => [
-          {
-            id: id("act"),
-            timestamp: new Date().toISOString(),
-            type: "PolicyCreated",
-            title: "Policy created",
-            detail: newPolicy.title
-          },
-          ...prev
-        ]);
+        const item: ActivityItem = {
+          id: id("act"),
+          timestamp: new Date().toISOString(),
+          type: "PolicyCreated",
+          title: "Policy created",
+          detail: newPolicy.title
+        };
+        setActivity((prev) => [item, ...prev]);
       },
       attachPolicyDocument: (policyId, file) => {
         setPolicies((prev) =>
@@ -234,29 +222,25 @@ export const AppDataProvider = ({ children }: { children: React.ReactNode }) => 
       addTask: (task) => {
         const newTask: ActionTask = { ...task, id: id("t") };
         setTasks((prev) => [newTask, ...prev]);
-        setActivity((prev) => [
-          {
-            id: id("act"),
-            timestamp: new Date().toISOString(),
-            type: "TaskCreated",
-            title: "Task created",
-            detail: newTask.title
-          },
-          ...prev
-        ]);
+        const item: ActivityItem = {
+          id: id("act"),
+          timestamp: new Date().toISOString(),
+          type: "TaskCreated",
+          title: "Task created",
+          detail: newTask.title
+        };
+        setActivity((prev) => [item, ...prev]);
       },
       updateTask: (taskId, patch) => {
         setTasks((prev) => prev.map((t) => (t.id === taskId ? { ...t, ...patch } : t)));
-        setActivity((prev) => [
-          {
-            id: id("act"),
-            timestamp: new Date().toISOString(),
-            type: "TaskUpdated",
-            title: "Task updated",
-            detail: taskId
-          },
-          ...prev
-        ]);
+        const item: ActivityItem = {
+          id: id("act"),
+          timestamp: new Date().toISOString(),
+          type: "TaskUpdated",
+          title: "Task updated",
+          detail: taskId
+        };
+        setActivity((prev) => [item, ...prev]);
       }
     }),
     [activity, audits, controls, evidence, frameworks, policies, risks, tasks]
@@ -270,4 +254,3 @@ export const useAppData = () => {
   if (!ctx) throw new Error("useAppData must be used within AppDataProvider");
   return ctx;
 };
-

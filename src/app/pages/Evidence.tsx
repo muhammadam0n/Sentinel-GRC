@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { Badge } from "../../ui/Badge";
 import { Button } from "../../ui/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/Card";
+import { Label } from "../../ui/Input";
 import { Select } from "../../ui/Select";
 import { Table, Td, Th } from "../../ui/Table";
 import { useAppData } from "../providers/AppDataProvider";
-import type { Evidence, EvidenceLinkType } from "../../domain/types";
+import type { EvidenceLinkType } from "../../domain/types";
 
 export const Evidence = () => {
   const { evidence, audits, controls, addEvidence, linkEvidence } = useAppData();
@@ -143,7 +144,11 @@ export const Evidence = () => {
                       variant="secondary"
                       size="sm"
                       className="flex-1"
-                      onClick={() => linkEvidence(selectedEvidenceId, { type: "Audit", id: audits[0]?.id })}
+                      onClick={() => {
+                        const first = audits[0];
+                        if (!first) return;
+                        linkEvidence(selectedEvidenceId, { type: "Audit", id: first.id });
+                      }}
                     >
                       Audit
                     </Button>
@@ -151,7 +156,11 @@ export const Evidence = () => {
                       variant="secondary"
                       size="sm"
                       className="flex-1"
-                      onClick={() => linkEvidence(selectedEvidenceId, { type: "Control", id: controls[0]?.id })}
+                      onClick={() => {
+                        const first = controls[0];
+                        if (!first) return;
+                        linkEvidence(selectedEvidenceId, { type: "Control", id: first.id });
+                      }}
                     >
                       Control
                     </Button>
@@ -161,7 +170,10 @@ export const Evidence = () => {
                   <Label>Select Target</Label>
                   <Select
                     onChange={(e) => {
-                      const [type, id] = e.target.value.split(":");
+                      const raw = e.target.value;
+                      if (!raw) return;
+                      const [type, id] = raw.split(":");
+                      if (!type || !id) return;
                       linkEvidence(selectedEvidenceId, { type: type as EvidenceLinkType, id });
                     }}
                   >
