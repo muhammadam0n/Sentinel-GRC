@@ -1,5 +1,6 @@
 import type {
   ActionTask,
+  ActivityItem,
   Audit,
   Control,
   Evidence,
@@ -210,7 +211,7 @@ export const seedTasks: ActionTask[] = [
   }
 ];
 
-export const seedActivity = () => [
+export const seedActivity = (): ActivityItem[] => [
   {
     id: "act-001",
     timestamp: nowIso(),
@@ -226,4 +227,3 @@ export const seedActivity = () => [
     detail: "backup-restore-test.pdf"
   }
 ];
-
