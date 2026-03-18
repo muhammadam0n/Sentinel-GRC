@@ -152,6 +152,14 @@ backend\.venv\Scripts\python -m pip install --upgrade pip
 backend\.venv\Scripts\python -m pip install -r backend\requirements.txt
 ```
 
+### Deleting the virtual environment (PowerShell)
+
+Do not use `rmdir /s /q` in PowerShell. Use:
+
+```powershell
+Remove-Item -Recurse -Force backend\.venv
+```
+
 ### Backend starts then immediately exits
 
 Run with full debug logs:
