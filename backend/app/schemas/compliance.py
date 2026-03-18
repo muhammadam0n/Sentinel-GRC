@@ -1,53 +1,94 @@
-from typing import Optional, List
+from typing import List, Optional
 from pydantic import BaseModel
-from datetime import datetime
+
 
 class FrameworkBase(BaseModel):
-    name: Optional[str] = None
+    name: str
+    version: str
     description: Optional[str] = None
 
-class FrameworkCreate(FrameworkBase):
-    name: str
 
-class FrameworkUpdate(FrameworkBase):
+class FrameworkCreate(FrameworkBase):
     pass
+
 
 class Framework(FrameworkBase):
     id: int
-    created_at: datetime
 
     class Config:
         from_attributes = True
 
-class ControlBase(BaseModel):
-    code: Optional[str] = None
-    title: Optional[str] = None
-    description: Optional[str] = None
-    framework_id: Optional[int] = None
 
-class ControlCreate(ControlBase):
-    code: str
-    title: str
+class FrameworkDomainBase(BaseModel):
+    name: str
+    description: Optional[str] = None
+
+
+class FrameworkDomainCreate(FrameworkDomainBase):
     framework_id: int
 
-class ControlUpdate(ControlBase):
-    pass
+
+class FrameworkDomain(FrameworkDomainBase):
+    id: int
+    framework_id: int
+
+    class Config:
+        from_attributes = True
+
+
+class ControlBase(BaseModel):
+    control_code: str
+    title: str
+    description: Optional[str] = None
+
+
+class ControlCreate(ControlBase):
+    domain_id: int
+
 
 class Control(ControlBase):
     id: int
-    created_at: datetime
+    domain_id: int
 
     class Config:
         from_attributes = True
+
+
+class SubControlBase(BaseModel):
+    description: str
+
+
+class SubControlCreate(SubControlBase):
+    control_id: int
+
+
+class SubControl(SubControlBase):
+    id: int
+    control_id: int
+
+    class Config:
+        from_attributes = True
+
 
 class RiskControlMappingCreate(BaseModel):
     risk_id: int
     control_id: int
-    mapping_type: Optional[str] = "Primary"
+
 
 class RiskControlMapping(RiskControlMappingCreate):
     id: int
-    mapped_at: datetime
 
     class Config:
         from_attributes = True
+
+
+class ControlWithSubControls(Control):
+    sub_controls: List[SubControl] = []
+
+
+class DomainWithControls(FrameworkDomain):
+    controls: List[ControlWithSubControls] = []
+
+
+class FrameworkTree(Framework):
+    domains: List[DomainWithControls] = []

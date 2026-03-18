@@ -9,6 +9,8 @@ const items: NavItem[] = [
   { label: "Dashboard", to: "/" },
   { label: "Risk Management", to: "/risks" },
   { label: "Compliance", to: "/compliance" },
+  { label: "Frameworks", to: "/frameworks" },
+  { label: "Risk Mapping", to: "/frameworks/risk-mapping" },
   { label: "Audits", to: "/audits" },
   { label: "Policies", to: "/policies" },
   { label: "Evidence", to: "/evidence" },

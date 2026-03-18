@@ -4,9 +4,6 @@ from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from app.api import deps
 from app.models import Risk, Audit, Framework, Control, User
-import pandas as pd
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
 import os
 from tempfile import NamedTemporaryFile
 
@@ -17,6 +14,13 @@ def export_risks_csv(
     db: Session = Depends(deps.get_db),
     current_user: User = Depends(deps.get_current_user),
 ) -> Any:
+    try:
+        import pandas as pd
+    except Exception:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Report export requires optional dependencies. Install backend/requirements.optional.txt",
+        )
     risks = db.query(Risk).all()
     data = []
     for risk in risks:
@@ -45,6 +49,15 @@ def export_risks_pdf(
     db: Session = Depends(deps.get_db),
     current_user: User = Depends(deps.get_current_user),
 ) -> Any:
+    try:
+        import pandas as pd
+        from reportlab.lib.pagesizes import letter
+        from reportlab.pdfgen import canvas
+    except Exception:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Report export requires optional dependencies. Install backend/requirements.optional.txt",
+        )
     risks = db.query(Risk).all()
     
     with NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:

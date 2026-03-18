@@ -16,6 +16,9 @@ import { Evidence } from "./pages/Evidence";
 import { ActionPlans } from "./pages/ActionPlans";
 import { Reports } from "./pages/Reports";
 import { Settings } from "./pages/Settings";
+import { FrameworksList } from "./pages/FrameworksList";
+import { FrameworkDetail } from "./pages/FrameworkDetail";
+import { RiskControlMapping } from "./pages/RiskControlMapping";
 
 const AppLayout = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -42,6 +45,9 @@ const AppLayout = () => {
                 <Route path="/evidence" element={<Evidence />} />
                 <Route path="/action-plans" element={<ActionPlans />} />
                 <Route path="/reports" element={<Reports />} />
+                <Route path="/frameworks" element={<FrameworksList />} />
+                <Route path="/frameworks/risk-mapping" element={<RiskControlMapping />} />
+                <Route path="/frameworks/:frameworkId" element={<FrameworkDetail />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>

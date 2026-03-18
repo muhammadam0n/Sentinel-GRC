@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 
-from app.api.v1.endpoints import auth, risks, compliance, audits, policies, action_plans, reports, evidence
+from app.api.v1.endpoints import auth, risks, audits, policies, action_plans, reports, evidence, frameworks
 
 app = FastAPI(
     title="Sentinel GRC API",
@@ -26,9 +26,9 @@ def read_root():
 # Include routers
 app.include_router(auth.router, prefix=f"{settings.API_V1_STR}/auth", tags=["auth"])
 app.include_router(risks.router, prefix=f"{settings.API_V1_STR}/risks", tags=["risks"])
-app.include_router(compliance.router, prefix=f"{settings.API_V1_STR}/compliance", tags=["compliance"])
 app.include_router(audits.router, prefix=f"{settings.API_V1_STR}/audits", tags=["audits"])
 app.include_router(policies.router, prefix=f"{settings.API_V1_STR}/policies", tags=["policies"])
 app.include_router(action_plans.router, prefix=f"{settings.API_V1_STR}/action-plans", tags=["action-plans"])
 app.include_router(reports.router, prefix=f"{settings.API_V1_STR}/reports", tags=["reports"])
 app.include_router(evidence.router, prefix=f"{settings.API_V1_STR}/evidence", tags=["evidence"])
+app.include_router(frameworks.router, prefix=f"{settings.API_V1_STR}", tags=["frameworks"])

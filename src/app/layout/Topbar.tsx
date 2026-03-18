@@ -9,6 +9,7 @@ const titleFromPath = (path: string) => {
   const map: Record<string, string> = {
     "/risks": "Risk Management",
     "/compliance": "Compliance",
+    "/frameworks": "Frameworks",
     "/audits": "Audits",
     "/policies": "Policies",
     "/evidence": "Evidence",
