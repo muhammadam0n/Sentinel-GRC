@@ -21,6 +21,13 @@ python --version
 python -m pip --version
 ```
 
+If `python` is not recognized:
+
+```powershell
+where.exe python
+Get-Command python -ErrorAction SilentlyContinue
+```
+
 ## 2) Backend (FastAPI)
 
 ### 2.1 Create a virtual environment + install dependencies
@@ -33,6 +40,8 @@ cd E:\Sentinel_GRC
 python -m venv backend\.venv
 backend\.venv\Scripts\python -m pip install -r backend\requirements.txt
 ```
+
+If you are on Python 3.13 and installs fail with Rust/Cargo errors, install Python 3.12 from python.org and recreate the venv.
 
 Optional (reports export + PostgreSQL driver):
 
@@ -165,6 +174,13 @@ Quick checks:
 ```powershell
 Resolve-DnsName pypi.org
 Test-NetConnection pypi.org -Port 443
+```
+
+If you are behind a proxy, set:
+
+```powershell
+$env:HTTP_PROXY="http://user:pass@proxy:port"
+$env:HTTPS_PROXY="http://user:pass@proxy:port"
 ```
 
 ### Port already in use
